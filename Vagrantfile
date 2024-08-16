@@ -37,10 +37,11 @@ def provision_kubernetes_node(node)
 end
 
 Vagrant.configure("2") do |config|
+  #config.ssh.password = "e43b35d5be0112aeaa005902"
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
-
+  
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box_check_update = false
@@ -48,27 +49,30 @@ Vagrant.configure("2") do |config|
   # Provision Control Nodes
   (1..NUM_CONTROL_NODES).each do |i|
     config.vm.define "controlplane0#{i}" do |node|
-      # Name shown in the GUI
-      node.vm.provider "virtualbox" do |vb|
-        vb.name = "kubernetes-ha-controlplane-#{i}"
-        vb.memory =8192
-        vb.cpus = 2
-      end
-      node.vm.hostname = "controlplane0#{i}"
-      node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
-      node.vm.network "forwarded_port", guest: 22, host: "#{2710 + i}"
-     # provision_kubernetes_node node
-      if i == 1
-        # Install (opinionated) configs for vim and tmux on controlplane01. These used by the author for CKA exam.
-        node.vm.provision "file", source: "upload/tmux.conf", destination: "$HOME/.tmux.conf"
-        node.vm.provision "file", source: "upload/vimrc", destination: "$HOME/.vimrc"
-        node.vm.provision "file", source: "upload/approve-csr.sh", destination: "$HOME/approve-csr.sh"
-      end
+    # Name shown in the GUI
+    node.vm.provider "virtualbox" do |vb|
+      vb.name = "kubernetes-ha-controlplane-#{i}"
+      vb.memory =8192
+      vb.cpus = 2
+    end
+    node.vm.hostname = "controlplane0#{i}"
+    node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
+    node.vm.network "forwarded_port", guest: 22, host: "#{2710 + i}"
+    provision_kubernetes_node node
+    if i == 1
+      # Install (opinionated) configs for vim and tmux on controlplane01. These used by the author for CKA exam.
+      node.vm.provision "shell", inline: "sudo dnf -y install expect"
+      node.vm.provision "file", source: "upload/tmux.conf", destination: "$HOME/.tmux.conf"
+      node.vm.provision "file", source: "upload/vimrc", destination: "$HOME/.vimrc"
+      node.vm.provision "file", source: "upload/approve-csr.sh", destination: "$HOME/approve-csr.sh"
+      node.vm.provision "file", source: "upload/ssh-key.sh", destination: "$HOME/ssh-key.sh"
+      node.vm.provision "file", source: "upload/install-kubectl.sh", destination: "$HOME/install-kubectl.sh"
     end
   end
+end
 
-  # Provision Load Balancer Node
-  config.vm.define "loadbalancer" do |node|
+# Provision Load Balancer Node
+config.vm.define "loadbalancer" do |node|
     node.vm.provider "virtualbox" do |vb|
       vb.name = "kubernetes-ha-lb"
       vb.memory = 512
