@@ -9,41 +9,41 @@ NC='\033[0m'
 
 # IP addresses
 PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-NODE01=$(dig +short node01)
-NODE02=$(dig +short node02)
-LOADBALANCER=$(dig +short loadbalancer)
+CONTROL01=192.168.56.11
+CONTROL02=192.168.56.12
+LOADBALANCER=192.168.56.30
+NODE01=192.168.56.21
+NODE02=192.168.56.22
 LOCALHOST="127.0.0.1"
 
 # All Cert Location
 # ca certificate location
-CACERT=ca.crt
-CAKEY=ca.key
+CACERT=key/ca.crt
+CAKEY=key/ca.key
 
 # Kube controller manager certificate location
-KCMCERT=kube-controller-manager.crt
-KCMKEY=kube-controller-manager.key
+KCMCERT=key/kube-controller-manager.crt
+KCMKEY=key/kube-controller-manager.key
 
 # Kube proxy certificate location
-KPCERT=kube-proxy.crt
-KPKEY=kube-proxy.key
+KPCERT=key/kube-proxy.crt
+KPKEY=key/kube-proxy.key
 
 # Kube scheduler certificate location
-KSCERT=kube-scheduler.crt
-KSKEY=kube-scheduler.key
+KSCERT=key/kube-scheduler.crt
+KSKEY=key/kube-scheduler.key
 
 # Kube api certificate location
-APICERT=kube-apiserver.crt
-APIKEY=kube-apiserver.key
+APICERT=key/kube-apiserver.crt
+APIKEY=key/kube-apiserver.key
 
 # ETCD certificate location
-ETCDCERT=etcd-server.crt
-ETCDKEY=etcd-server.key
+ETCDCERT=key/etcd-server.crt
+ETCDKEY=key/etcd-server.key
 
 # Service account certificate location
-SACERT=service-account.crt
-SAKEY=service-account.key
+SACERT=key/service-account.crt
+SAKEY=key/service-account.key
 
 # All kubeconfig locations
 
@@ -477,7 +477,7 @@ case $choice in
 
     echo -e "The selected option is $choice, proceeding the certificate verification of Master node"
 
-    CERT_LOCATION=$HOME
+    CERT_LOCATION=$HOME/key
     check_cert_and_key "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-apiserver" $SUBJ_API $CERT_ISSUER
     check_cert_and_key "kube-controller-manager" $SUBJ_KCM $CERT_ISSUER
