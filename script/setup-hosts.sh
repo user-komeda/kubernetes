@@ -4,6 +4,8 @@
 set -e
 IFNAME=$1
 THISHOST=$2
+echo $IFNAME
+echo $THISHOST
 
 # Host will have 3 interfaces: lo, DHCP assigned NAT network and static on VM network
 # We want the VM network

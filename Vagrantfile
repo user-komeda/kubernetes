@@ -33,7 +33,7 @@ def provision_kubernetes_node(node)
   # Set up DNS
   setup_dns node
   # Install cert verification script
-  node.vm.provision "shell", inline: "ln -s script/cert_verify.sh /home/vagrant/cert_verify.sh"
+  # node.vm.provision "shell", inline: "ln -s script/cert_verify.sh /home/vagrant/cert_verify.sh"
 end
 
 Vagrant.configure("2") do |config|
@@ -67,6 +67,9 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/approve-csr.sh", destination: "$HOME/approve-csr.sh"
       node.vm.provision "file", source: "upload/ssh-key.sh", destination: "$HOME/ssh-key.sh"
       node.vm.provision "file", source: "upload/install-kubectl.sh", destination: "$HOME/install-kubectl.sh"
+      node.vm.provision "file", source: "upload/certificates-settings.sh", destination: "$HOME/certificates-settings.sh"
+      node.vm.provision "file", source: "script/cert_verify.sh", destination: "$HOME/cert_verify.sh"
+      node.vm.provision "file", source: "upload/run-script.sh", destination: "$HOME/run-script.sh"
     end
   end
 end
