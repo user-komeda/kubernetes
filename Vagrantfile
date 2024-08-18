@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/certificates-settings.sh", destination: "$HOME/certificates-settings.sh"
       node.vm.provision "file", source: "script/cert_verify.sh", destination: "$HOME/cert_verify.sh"
       node.vm.provision "file", source: "upload/run-script.sh", destination: "$HOME/run-script.sh"
+      node.vm.provision "file", source: "upload/generate-kubeconfig.sh", destination: "$HOME/generate-kubeconfig.sh"
     end
   end
 end
