@@ -48,16 +48,16 @@ SAKEY=key/service-account.key
 # All kubeconfig locations
 
 # kubeproxy.kubeconfig location
-KPKUBECONFIG=kube-proxy.kubeconfig
+KPKUBECONFIG=kube-config/kube-proxy.kubeconfig
 
 # kube-controller-manager.kubeconfig location
-KCMKUBECONFIG=kube-controller-manager.kubeconfig
+KCMKUBECONFIG=kube-config/kube-controller-manager.kubeconfig
 
 # kube-scheduler.kubeconfig location
-KSKUBECONFIG=kube-scheduler.kubeconfig
+KSKUBECONFIG=kube-config/kube-scheduler.kubeconfig
 
 # admin.kubeconfig location
-ADMINKUBECONFIG=admin.kubeconfig
+ADMINKUBECONFIG=kube-config/admin.kubeconfig
 
 # All systemd service locations
 
@@ -501,12 +501,12 @@ case $choice in
     fi
 
     check_cert_adminkubeconfig
-    check_kubeconfig_exists "kube-controller-manager" $HOME
-    check_kubeconfig_exists "kube-scheduler" $HOME
+    check_kubeconfig_exists "kube-controller-manager" $HOME/kube-config
+    check_kubeconfig_exists "kube-scheduler" $HOME/kube-config
 
     if [ "${HOST}" = "controlplane01" ]
     then
-        check_kubeconfig_exists "kube-proxy" $HOME
+        check_kubeconfig_exists "kube-proxy" $HOME/kube-config
     fi
     ;;
 
