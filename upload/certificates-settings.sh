@@ -127,13 +127,8 @@ EOF
   openssl x509 -req -in key/service-account.csr \
     -CA key/ca.crt -CAkey key/ca.key -CAcreateserial -out key/service-account.crt -days 1000
 
-expect -c "
-spawn scp -o StrictHostKeyChecking=no -r key/ controlplane01:~/
-expect \"vagrant@controlplane01's password:\"
-send \"vagrant\n\"
-interact
-"
-  
+
+  scp -o StrictHostKeyChecking=no -r key/ controlplane01:~/
   scp -o StrictHostKeyChecking=no -r key/ controlplane02:~/
   scp -o StrictHostKeyChecking=no -r ./cert_verify.sh controlplane02:~/
 
