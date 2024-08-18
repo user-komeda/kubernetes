@@ -73,13 +73,7 @@ mkdir kube-config
 
   kubectl config use-context default --kubeconfig=kube-config/admin.kubeconfig
 
-expect -c "
-spawn scp -o StrictHostKeyChecking=no -r kube-config/ controlplane01:~/
-expect \"vagrant@controlplane01's password:\"
-send \"vagrant\n\"
-interact
-"
-  
+  scp -o StrictHostKeyChecking=no -r kube-config/ controlplane01:~/
   scp -o StrictHostKeyChecking=no -r kube-config/ controlplane02:~/
 
 for instance in node01 node02 ; do
