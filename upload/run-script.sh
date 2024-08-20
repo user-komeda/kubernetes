@@ -6,7 +6,6 @@ sudo chmod +x ./cert_verify.sh
 sudo chmod +x ./generate-kubeconfig.sh
 sudo chmod +x ./data-encryption-config.sh
 sudo chmod +x ./etcd-cluster-settings.sh
-sudo chmod +x ./start-etcd.sh
 
 ./ssh-key.sh
 ./install-kubectl.sh
