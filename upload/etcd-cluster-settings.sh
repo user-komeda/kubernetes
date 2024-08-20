@@ -20,7 +20,6 @@ sudo ln -s /var/lib/kubernetes/pki/ca.crt /etc/etcd/ca.crt
 [Unit]
 Description=etcd
 Documentation=https://github.com/coreos
-
 [Service]
 ExecStart= setpriv /usr/bin/etcd \\
   --name ${ETCD_NAME} \\
@@ -42,7 +41,6 @@ ExecStart= setpriv /usr/bin/etcd \\
   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
-
 [Install]
 WantedBy=multi-user.target
 EOF

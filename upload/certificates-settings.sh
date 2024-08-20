@@ -130,7 +130,7 @@ EOF
 
   scp -o StrictHostKeyChecking=no -r key/ controlplane01:~/
   scp -o StrictHostKeyChecking=no -r key/ controlplane02:~/
-  scp -o StrictHostKeyChecking=no -r ./cert_verify.sh controlplane02:~/
+  #scp -o StrictHostKeyChecking=no -r ./cert_verify.sh controlplane02:~/
 
 for instance in node01 node02 ; do
   scp key/ca.crt key/kube-proxy.crt key/kube-proxy.key ${instance}:~/

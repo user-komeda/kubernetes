@@ -6,6 +6,8 @@ sudo chmod +x ./cert_verify.sh
 sudo chmod +x ./generate-kubeconfig.sh
 sudo chmod +x ./data-encryption-config.sh
 sudo chmod +x ./etcd-cluster-settings.sh
+sudo chmod +x ./kubernetes-control-plane-settings.sh
+sudo chmod +x ./haproxy-settings.sh
 
 ./ssh-key.sh
 ./install-kubectl.sh
@@ -16,7 +18,11 @@ scp -o StrictHostKeyChecking=no ./etcd-cluster-settings.sh controlplane01:~/
 scp -o StrictHostKeyChecking=no ./etcd-cluster-settings.sh controlplane02:~/
 ssh controlplane01  ./etcd-cluster-settings.sh
 ssh controlplane02  ./etcd-cluster-settings.sh
-#ssh controlplane02 sh ./etcd-cluster-settings.sh  && sh ./start-etcd.sh
-#ssh controlplane01 sh ./start-etcd.sh 
-#ssh controlplane02 sh ./start-etcd.sh 
+scp -o StrictHostKeyChecking=no ./kubernetes-control-plane-settings.sh controlplane01:~/
+scp -o StrictHostKeyChecking=no ./kubernetes-control-plane-settings.sh controlplane02:~/
+ssh controlplane01  ./kubernetes-control-plane-settings.sh
+ssh controlplane02  ./kubernetes-control-plane-settings.sh
+scp -o StrictHostKeyChecking=no ./haproxy-settings.sh loadbalancer:~/
+
+# ssh loadbalancer  ./haproxy-settings.sh
 #./cert_verify.sh
