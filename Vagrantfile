@@ -50,10 +50,11 @@ Vagrant.configure("2") do |config|
   (1..NUM_CONTROL_NODES).each do |i|
     config.vm.define "controlplane0#{i}" do |node|
     # Name shown in the GUI
-    node.vm.provider "virtualbox" do |vb|
-      vb.name = "kubernetes-ha-controlplane-#{i}"
+    node.vm.provider :libvirt do |vb|
+     # vb.name = "kubernetes-ha-controlplane-#{i}"
       vb.memory =8192
       vb.cpus = 2
+      vb.default_prefix = ""
     end
     node.vm.hostname = "controlplane0#{i}"
     node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
@@ -81,10 +82,11 @@ end
 
 # Provision Load Balancer Node
 config.vm.define "loadbalancer" do |node|
-  node.vm.provider "virtualbox" do |vb|
-    vb.name = "kubernetes-ha-lb"
+  node.vm.provider :libvirt do |vb|
+    #vb.name = "kubernetes-ha-lb"
     vb.memory = 512
     vb.cpus = 1
+    vb.default_prefix = ""
   end
   node.vm.hostname = "loadbalancer"
   node.vm.network :private_network, ip: IP_NW + "#{LB_IP_START}"
@@ -98,10 +100,11 @@ end
 # Provision Worker Nodes
 (1..NUM_WORKER_NODE).each do |i|
   config.vm.define "node0#{i}" do |node|
-  node.vm.provider "virtualbox" do |vb|
-    vb.name = "kubernetes-ha-node-#{i}"
+  node.vm.provider :libvirt do |vb|
+    #vb.name = "kubernetes-ha-node-#{i}"
     vb.memory = 8192
     vb.cpus = 2
+    vb.default_prefix = ""
   end
   node.vm.hostname = "node0#{i}"
   node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
