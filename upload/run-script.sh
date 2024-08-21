@@ -23,6 +23,5 @@ scp -o StrictHostKeyChecking=no ./kubernetes-control-plane-settings.sh controlpl
 ssh controlplane01  ./kubernetes-control-plane-settings.sh
 ssh controlplane02  ./kubernetes-control-plane-settings.sh
 scp -o StrictHostKeyChecking=no ./haproxy-settings.sh loadbalancer:~/
-
-# ssh loadbalancer  ./haproxy-settings.sh
+ssh loadbalancer  ./haproxy-settings.sh
 #./cert_verify.sh
