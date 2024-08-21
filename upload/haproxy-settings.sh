@@ -17,4 +17,5 @@ backend kubernetes-controlplane-nodes
     server controlplane01 ${CONTROL01}:6443 check fall 3 rise 2
     server controlplane02 ${CONTROL02}:6443 check fall 3 rise 2
 EOF
+sudo  setenforce 0
 sudo systemctl restart haproxy

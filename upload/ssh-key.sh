@@ -24,4 +24,8 @@ spawn ssh-copy-id -o StrictHostKeyChecking=no vagrant@node02
 expect \"vagrant@node02's password:\"
 send \"vagrant\n\"
 interact
+spawn ssh-copy-id -o StrictHostKeyChecking=no vagrant@loadbalancer
+expect \"vagrant@loadbalancer's password:\"
+send \"vagrant\n\"
+interact
 "
