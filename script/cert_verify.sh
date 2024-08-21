@@ -8,11 +8,10 @@ FAILED='\033[0;31;1m'
 NC='\033[0m'
 
 # IP addresses
-PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 CONTROL01=192.168.56.11
 CONTROL02=192.168.56.12
 LOADBALANCER=192.168.56.30
-NODE01=192.168.56.21
+NOiDE01=192.168.56.21
 NODE02=192.168.56.22
 LOCALHOST="127.0.0.1"
 
@@ -349,7 +348,7 @@ check_systemd_api()
                 SACERT="${PKI}/service-account.crt"
                 KCCERT="${PKI}/apiserver-kubelet-client.crt"
                 KCKEY="${PKI}/apiserver-kubelet-client.key"
-                if [ $ADVERTISE_ADDRESS == $PRIMARY_IP ] && [ $CLIENT_CA_FILE == $CACERT ] && [ $ETCD_CA_FILE == $CACERT ] && \
+                if [ $ADVERTISE_ADDRESS == ${PRIMARY_IP} ] && [ $CLIENT_CA_FILE == $CACERT ] && [ $ETCD_CA_FILE == $CACERT ] && \
                    [ $ETCD_CERT_FILE == "${PKI}/etcd-server.crt" ] && [ $ETCD_KEY_FILE == "${PKI}/etcd-server.key" ] && \
                    [ $KUBELET_CERTIFICATE_AUTHORITY == $CACERT ] && [ $KUBELET_CLIENT_CERTIFICATE == $KCCERT ] && [ $KUBELET_CLIENT_KEY == $KCKEY ] && \
                    [ $SERVICE_ACCOUNT_KEY_FILE == $SACERT ] && [ $TLS_CERT_FILE == $APICERT ] && [ $TLS_PRIVATE_KEY_FILE == $APIKEY ]

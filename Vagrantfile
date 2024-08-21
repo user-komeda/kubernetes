@@ -50,10 +50,11 @@ Vagrant.configure("2") do |config|
   (1..NUM_CONTROL_NODES).each do |i|
     config.vm.define "controlplane0#{i}" do |node|
     # Name shown in the GUI
-    node.vm.provider "virtualbox" do |vb|
-      vb.name = "kubernetes-ha-controlplane-#{i}"
+    node.vm.provider :libvirt do |vb|
+     # vb.name = "kubernetes-ha-controlplane-#{i}"
       vb.memory =8192
       vb.cpus = 2
+      vb.default_prefix = ""
     end
     node.vm.hostname = "controlplane0#{i}"
     node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
@@ -73,37 +74,42 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/generate-kubeconfig.sh", destination: "$HOME/generate-kubeconfig.sh"
       node.vm.provision "file", source: "upload/data-encryption-config.sh", destination: "$HOME/data-encryption-config.sh"
       node.vm.provision "file", source: "upload/etcd-cluster-settings.sh", destination: "$HOME/etcd-cluster-settings.sh"
+      node.vm.provision "file", source: "upload/kubernetes-control-plane-settings.sh", destination: "$HOME/kubernetes-control-plane-settings.sh"
+      node.vm.provision "file", source: "upload/haproxy-settings.sh", destination: "$HOME/haproxy-settings.sh"
     end
   end
 end
 
 # Provision Load Balancer Node
 config.vm.define "loadbalancer" do |node|
-    node.vm.provider "virtualbox" do |vb|
-      vb.name = "kubernetes-ha-lb"
-      vb.memory = 512
-      vb.cpus = 1
-    end
-    node.vm.hostname = "loadbalancer"
-    node.vm.network :private_network, ip: IP_NW + "#{LB_IP_START}"
-    node.vm.network "forwarded_port", guest: 22, host: 2730
-    # Set up ssh
-    node.vm.provision "setup-ssh", :type => "shell", :path => "script/ssh.sh"
-    setup_dns node
+  node.vm.provider :libvirt do |vb|
+    #vb.name = "kubernetes-ha-lb"
+    vb.memory = 512
+    vb.cpus = 1
+    vb.default_prefix = ""
   end
+  node.vm.hostname = "loadbalancer"
+  node.vm.network :private_network, ip: IP_NW + "#{LB_IP_START}"
+  node.vm.network "forwarded_port", guest: 22, host: 2730
+  # Set up ssh
+  node.vm.provision "setup-ssh", :type => "shell", :path => "script/ssh.sh"
+  node.vm.provision "shell", inline: "sudo dnf -y install haproxy"
+  setup_dns node
+end
 
-  # Provision Worker Nodes
-  (1..NUM_WORKER_NODE).each do |i|
-    config.vm.define "node0#{i}" do |node|
-      node.vm.provider "virtualbox" do |vb|
-        vb.name = "kubernetes-ha-node-#{i}"
-        vb.memory = 8192
-        vb.cpus = 2
-      end
-      node.vm.hostname = "node0#{i}"
-      node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
-      node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
-      provision_kubernetes_node node
-    end
+# Provision Worker Nodes
+(1..NUM_WORKER_NODE).each do |i|
+  config.vm.define "node0#{i}" do |node|
+  node.vm.provider :libvirt do |vb|
+    #vb.name = "kubernetes-ha-node-#{i}"
+    vb.memory = 8192
+    vb.cpus = 2
+    vb.default_prefix = ""
   end
+  node.vm.hostname = "node0#{i}"
+  node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
+  node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+  provision_kubernetes_node node
+end
+end
 end
