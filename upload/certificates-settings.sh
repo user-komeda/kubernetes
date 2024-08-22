@@ -4,6 +4,7 @@ CONTROL01=192.168.56.11
 CONTROL02=192.168.56.12
 LOADBALANCER=192.168.56.30
 SERVICE_CIDR=10.96.0.0/24
+NODE01=192.168.22.11
 API_SERVICE=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.1", $1, $2, $3) }')
   mkdir key
   # Create private key for CA
@@ -127,9 +128,31 @@ EOF
   openssl x509 -req -in key/service-account.csr \
     -CA key/ca.crt -CAkey key/ca.key -CAcreateserial -out key/service-account.crt -days 1000
 
+cat > openssl-node01.cnf <<EOF
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = node01
+IP.1 = ${NODE01}
+EOF
 
-  scp -o StrictHostKeyChecking=no -r key/ controlplane01:~/
-  scp -o StrictHostKeyChecking=no -r key/ controlplane02:~/
+openssl genrsa -out key/node01.key 2048
+openssl req -new -key key/node01.key -subj "/CN=system:node:node01/O=system:nodes" -out key/node01.csr -config openssl-node01.cnf
+openssl x509 -req -in key/node01.csr -CA key/ca.crt -CAkey key/ca.key -CAcreateserial  -out key/node01.crt -extensions v3_req -extfile openssl-node01.cnf -days 1000
+
+
+
+
+
+scp -o StrictHostKeyChecking=no -r key/ controlplane01:~/
+scp -o StrictHostKeyChecking=no -r key/ controlplane02:~/
+
   #scp -o StrictHostKeyChecking=no -r ./cert_verify.sh controlplane02:~/
 
 for instance in node01 node02 ; do

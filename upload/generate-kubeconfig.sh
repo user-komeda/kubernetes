@@ -73,8 +73,27 @@ mkdir kube-config
 
   kubectl config use-context default --kubeconfig=kube-config/admin.kubeconfig
 
+  kubectl config set-cluster kubernetes-the-hard-way \
+    --certificate-authority=/var/lib/kubernetes/pki/ca.crt \
+    --server=https://${LOADBALANCER}:6443 \
+    --kubeconfig=kube-config/node01.kubeconfig
+
+  kubectl config set-credentials system:node:node01 \
+    --client-certificate=/var/lib/kubernetes/pki/node01.crt \
+    --client-key=/var/lib/kubernetes/pki/node01.key \
+    --kubeconfig=kube-config/node01.kubeconfig
+
+  kubectl config set-context default \
+    --cluster=kubernetes-the-hard-way \
+    --user=system:node:node01 \
+    --kubeconfig=kube-config/node01.kubeconfig
+
+  kubectl config use-context default --kubeconfig=kube-config/node01.kubeconfig
+
   scp -o StrictHostKeyChecking=no -r kube-config/ controlplane01:~/
   scp -o StrictHostKeyChecking=no -r kube-config/ controlplane02:~/
+  scp -o StrictHostKeyChecking=no key/ca.crt key/node01.crt key/node01.key kube-config/node01.kubeconfig node01:~/
+
 
 for instance in node01 node02 ; do
   scp kube-config/kube-proxy.kubeconfig ${instance}:~/

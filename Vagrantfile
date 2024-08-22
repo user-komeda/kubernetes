@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/etcd-cluster-settings.sh", destination: "$HOME/etcd-cluster-settings.sh"
       node.vm.provision "file", source: "upload/kubernetes-control-plane-settings.sh", destination: "$HOME/kubernetes-control-plane-settings.sh"
       node.vm.provision "file", source: "upload/haproxy-settings.sh", destination: "$HOME/haproxy-settings.sh"
-      node.vm.provision "file", source: "upload/setup-worker.sh", destination: "$HOME/setup-worker.sh"
+      node.vm.provision "file", source: "upload/boot-worker-1.sh", destination: "$HOME/boot-worker-1.sh"
     end
   end
 end
