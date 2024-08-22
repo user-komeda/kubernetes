@@ -8,7 +8,7 @@ sudo chmod +x ./data-encryption-config.sh
 sudo chmod +x ./etcd-cluster-settings.sh
 sudo chmod +x ./kubernetes-control-plane-settings.sh
 sudo chmod +x ./haproxy-settings.sh
-sudo chmod +x ./setup-worker.sh
+sudo chmod +x ./boot-worker-1.sh
 
 ./ssh-key.sh
 ./install-kubectl.sh
@@ -25,8 +25,6 @@ ssh controlplane01  ./kubernetes-control-plane-settings.sh
 ssh controlplane02  ./kubernetes-control-plane-settings.sh
 scp -o StrictHostKeyChecking=no ./haproxy-settings.sh loadbalancer:~/
 ssh loadbalancer  ./haproxy-settings.sh
-scp -o StrictHostKeyChecking=no ./setup-worker.sh node01:~/
-scp -o StrictHostKeyChecking=no ./setup-worker.sh node02:~/
-ssh node01  ./setup-worker.sh
-ssh node02  ./setup-worker.sh
+scp -o StrictHostKeyChecking=no ./boot-worker-1.sh node01:~/
+ssh node01  ./boot-worker-1.sh
 #./cert_verify.sh
