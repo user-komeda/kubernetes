@@ -77,6 +77,8 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/kubernetes-control-plane-settings.sh", destination: "$HOME/kubernetes-control-plane-settings.sh"
       node.vm.provision "file", source: "upload/haproxy-settings.sh", destination: "$HOME/haproxy-settings.sh"
       node.vm.provision "file", source: "upload/boot-worker-1.sh", destination: "$HOME/boot-worker-1.sh"
+      node.vm.provision "file", source: "upload/boot-worker-2.sh", destination: "$HOME/boot-worker-2.sh"
+      node.vm.provision "file", source: "upload/auth-kubelet.sh", destination: "$HOME/auth-kubelet.sh"
     end
   end
 end
