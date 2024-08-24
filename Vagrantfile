@@ -79,6 +79,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/boot-worker-1.sh", destination: "$HOME/boot-worker-1.sh"
       node.vm.provision "file", source: "upload/boot-worker-2.sh", destination: "$HOME/boot-worker-2.sh"
       node.vm.provision "file", source: "upload/auth-kubelet.sh", destination: "$HOME/auth-kubelet.sh"
+      node.vm.provision "file", source: "upload/kubectl-config.sh", destination: "$HOME/kubectl-config.sh"
     end
   end
 end
