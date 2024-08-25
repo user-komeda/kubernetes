@@ -36,4 +36,6 @@ scp -o StrictHostKeyChecking=no ./boot-worker-2.sh node02:~/
 ssh node02  ./boot-worker-2.sh
 ./kubectl-config.sh
 
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
 #./cert_verify.sh

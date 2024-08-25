@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
-
+sudo dnf -y update
+sudo modprobe ip_tables
+sudo echo 'ip_tables' >> /etc/modules
+sudo nmcli connection modify eth0 +ipv4.dns 8.8.8.8
+sudo mkdir /run/systemd/resolve
+ln -s /etc/resolv.conf /run/systemd/resolve/resolv.conf
 cat <<EOF | sudo  tee /etc/modules-load.d/module.conf
 ip_vs
 ip_vs_rr

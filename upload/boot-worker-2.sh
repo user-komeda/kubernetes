@@ -7,7 +7,6 @@ CLUSTER_DNS=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.10",
 KUBE_VERSION_DELETE_ZERO=$(curl -L -s https://dl.k8s.io/release/stable.txt | awk '{print substr($0, 1, length($0)-2)}') 
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt) 
 
-sudo dnf -y update
 sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
