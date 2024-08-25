@@ -1,5 +1,10 @@
 #!/bin/bash
 set -e
+curl -sLO https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-amd64-v1.0.0.tgz
+mkdir tmp 
+tar -xzvf cni-plugins-linux-amd64-v1.0.0.tgz -C tmp
+sudo mkdir -p /opt/cni/bin/
+sudo mv tmp/* /opt/cni/bin/
 sudo dnf -y update
 sudo modprobe ip_tables
 sudo echo 'ip_tables' >> /etc/modules
