@@ -16,6 +16,5 @@ fi
 
 if [ "$(hostname)" = "controlplane01" ]
 then
-    sh -c 'sudo dnf -y update' &> /dev/null
     sh -c 'sudo dnf install -y sshpass' &> /dev/null
 fi
