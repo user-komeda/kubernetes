@@ -13,6 +13,7 @@ sudo chmod +x ./boot-worker-1.sh
 sudo chmod +x ./auth-kubelet.sh
 sudo chmod +x ./boot-worker-2.sh
 sudo chmod +x ./kubectl-config.sh
+sudo chmod +x ./rbac-auth.sh
 
 ./ssh-key.sh
 ./install-kubectl.sh
@@ -37,5 +38,8 @@ ssh node02  ./boot-worker-2.sh
 ./kubectl-config.sh
 
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+./rbac-auth.sh
+kubectl apply -f https://raw.githubusercontent.com/mmumshad/kubernetes-the-hard-way/master/deployments/coredns.yaml
+
 
 #./cert_verify.sh
