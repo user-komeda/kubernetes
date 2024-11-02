@@ -37,7 +37,10 @@ scp -o StrictHostKeyChecking=no ./boot-worker-2.sh node02:~/
 ssh node02  ./boot-worker-2.sh
 ./kubectl-config.sh
 
-kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+#kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.29.0/manifests/custom-resources.yaml -O
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.0/manifests/tigera-operator.yaml
+#kubectl create -f custom-resources.yaml
 ./rbac-auth.sh
 kubectl apply -f https://raw.githubusercontent.com/mmumshad/kubernetes-the-hard-way/master/deployments/coredns.yaml
 
