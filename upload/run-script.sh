@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 sudo chmod +x ./ssh-key.sh
 sudo chmod +x ./install-kubectl.sh

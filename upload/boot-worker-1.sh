@@ -21,8 +21,8 @@ EOF
 sudo setenforce 0
 sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 sudo dnf install -y containerd.io  kubectl
-sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kube-proxy
-sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubelet
+sudo curl -sLO https://dl.k8s.io/${KUBE_VERSION}/bin/linux/amd64/kube-proxy
+sudo curl -sLO https://dl.k8s.io/${KUBE_VERSION}/bin/linux/amd64/kubelet
 
 
 sudo mkdir -p \
