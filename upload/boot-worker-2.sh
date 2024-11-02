@@ -23,8 +23,8 @@ sudo mkdir -p /etc/containerd
 sudo containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
 sudo systemctl restart containerd
 
-sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kube-proxy
-sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubelet
+sudo curl -sLO https://dl.k8s.io/${KUBE_VERSION}/bin/linux/amd64/kube-proxy
+sudo curl -sLO https://dl.k8s.io/${KUBE_VERSION}/bin/linux/amd64/kubelet
 
 
 sudo mkdir -p \

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 curl -sLO https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-amd64-v1.0.0.tgz
-mkdir tmp 
+mkdir -p tmp 
 tar -xzvf cni-plugins-linux-amd64-v1.0.0.tgz -C tmp
 sudo mkdir -p /opt/cni/bin/
 sudo mv tmp/* /opt/cni/bin/
@@ -22,9 +22,9 @@ EOF
 sudo systemctl restart systemd-modules-load.service
 
 cat <<EOF | sudo tee /etc/sysctl.d/10-kubernetes.conf
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
 net.bridge.bridge-nf-call-iptables=1
 net.ipv4.ip_forward=1
 EOF
