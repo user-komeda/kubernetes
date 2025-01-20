@@ -82,6 +82,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/kubectl-config.sh", destination: "$HOME/kubectl-config.sh"
       node.vm.provision "file", source: "upload/kubectl-config.sh", destination: "$HOME/kubectl-config.sh"
       node.vm.provision "file", source: "upload/rbac-auth.sh", destination: "$HOME/rbac-auth.sh"
+      node.vm.provision "file", source: "upload/after.sh", destination: "$HOME/after.sh"
     end
   end
 end
