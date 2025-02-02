@@ -5,7 +5,6 @@ mkdir -p tmp
 tar -xzvf cni-plugins-linux-amd64-v1.0.0.tgz -C tmp
 sudo mkdir -p /opt/cni/bin/
 sudo mv tmp/* /opt/cni/bin/
-sudo dnf -y update
 sudo modprobe ip_tables
 sudo echo 'ip_tables' >> /etc/modules
 sudo nmcli connection modify eth0 +ipv4.dns 8.8.8.8
