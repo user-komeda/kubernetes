@@ -22,6 +22,7 @@ def setup_dns(node)
   end
   # Set up DNS resolution
   node.vm.provision "setup-dns", type: "shell", :path => "script/update-dns.sh"
+   node.vm.provision "update", type: "shell", :path => "script/update.sh"
 end
 
 # Runs provisioning steps that are required by masters and workers
@@ -82,7 +83,9 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "upload/kubectl-config.sh", destination: "$HOME/kubectl-config.sh"
       node.vm.provision "file", source: "upload/kubectl-config.sh", destination: "$HOME/kubectl-config.sh"
       node.vm.provision "file", source: "upload/rbac-auth.sh", destination: "$HOME/rbac-auth.sh"
+      node.vm.provision "file", source: "upload/init.sh", destination: "$HOME/init.sh"
       node.vm.provision "file", source: "upload/after.sh", destination: "$HOME/after.sh"
+      node.vm.provision "file", source: "upload/openssl.sh", destination: "$HOME/openssl.sh"
     end
   end
 end
