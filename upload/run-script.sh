@@ -15,7 +15,9 @@ sudo chmod +x ./kubectl-config.sh
 sudo chmod +x ./rbac-auth.sh
 sudo chmod +x ./openssl.sh
 sudo chmod +x ./after.sh
+sudo chmod +x ./init.sh
 
+./init.sh
 ./install-kubectl.sh
 ./certificates-settings.sh
 ./generate-kubeconfig.sh
@@ -53,5 +55,4 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.0
 kubectl create -f https://raw.githubusercontent.com/mmumshad/kubernetes-the-hard-way/master/deployments/coredns.yaml
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.29.0/manifests/custom-resources.yaml -O
 
-./after.sh
 ./after.sh
