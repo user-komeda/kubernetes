@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+sudo dnf -y install iptables
 curl -sLO https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-amd64-v1.0.0.tgz
 mkdir -p tmp 
 tar -xzvf cni-plugins-linux-amd64-v1.0.0.tgz -C tmp
